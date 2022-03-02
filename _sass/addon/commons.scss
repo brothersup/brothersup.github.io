@@ -2,6 +2,11 @@
   The common styles
 */
 
+@font-face {
+  font-family: 'neodgm';
+  src: url('../fonts/neodgm_pro.ttf') format('truetype');
+}
+
 html {
   @media (prefers-color-scheme: light) {
     &:not([data-mode]),
@@ -33,7 +38,8 @@ body {
   background: var(--body-bg);
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
-  font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif;
+  //font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif;
+  font-family: 'neodgm', sans-serif;
 }
 
 /* --- Typography --- */
