@@ -6,7 +6,6 @@ author:
 date: 2022-03-05 17:53:00 +0900
 categories: [study, java]
 tags: [java, 입출력, Scanner, bufferedReader, bufferedWriter]
-permalink: /java/:title
 image:
   src: /70502054/156830053-7b86a906-95a9-4ff8-bc9c-3ac84091a533.png
   width: 910
