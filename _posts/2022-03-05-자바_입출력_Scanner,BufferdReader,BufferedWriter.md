@@ -120,11 +120,19 @@ public class BufferedIOTest {
 
 ### 정수형 출력 예
 ```java
-public class Example {
+import java.io.*;
+
+public class IntegerPrintTest {
   public static void main(String[] args) {
-    BufferedWriter br = new BufferedWriter(new OutputStreamWriter(System.out));
-    br.write(97); // 출력값: a
-    br.write(String.valueOf(97)); // 출력값: 97
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    try {
+      bw.write(97); // 출력값: a
+      bw.newLine();
+      bw.write(String.valueOf(97)); // 출력값: 97
+      bw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
 ```
