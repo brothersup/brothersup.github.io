@@ -100,26 +100,3 @@ If you like this theme or find it helpful, please consider sponsoring me, becaus
 This work is published under [MIT](https://github.com/cotes2020/jekyll-theme-chirpy/blob/master/LICENSE) License.
 
 <!-- ReadMe links -->
-<img width="1512" alt="스크린샷 2022-12-10 오후 11 46 09" src="https://user-images.githubusercontent.com/70502054/206861059-0ff7d585-d6e4-4628-8222-1e11e1fafb94.png"><img width="1511" alt="스크린샷 2022-12-11 오전 1 38 41" src="https://user-images.githubusercontent.com/70502054/206865443-2024cda5-f7ab<img width="1512" alt="스크린샷 2022-12-11 오전 2 27 02" src="https://user-images.githubusercontent.com/70502054/206867765-05c7b932-bda0-41dc-a21f-41a5493950fa.png">
--4958-9c10-d9ec81699e67.png">
-
-
-
-
-<img width="1512" alt="스크린샷 2022-12-11 오전 2 43 26" src="https://user-images.githubusercontent.com/70502054/206868291-a7cef761-877c-486e-a5f1-10f46bf16a73.png">
-
-
-
-<img width="1105" alt="스크린샷 2022-12-11 오전 2 54 21" src="https://user-images.githubusercontent.com/70502054/206868782-98323a20-ea27-49b5-8eef-68a07806bd20.png">
-
-<img width="799" alt="스크린샷 2022-12-11 오전 3 01 50" src="https://user-images.githubusercontent.com/70502054/206869088-e51ed4f5-cce0-4f9d-9a45-6c8c488cfcb5.png">
-
-<img width="794" alt="스크린샷 2022-12-11 오전 3 08 51" src="https://user-images.githubusercontent.com/70502054/206869303-a5eb9340-da87-48b6-a607-441e81095680.png">
-
-
-<img width="1512" alt="스크린샷 2022-12-11 오전 3 21 41" src="https://user-images.githubusercontent.com/70502054/206869784-e56ac251-e8ef-4bf2-be30-c8136fa5afd3.png"><img width="407" alt="스크린샷 2022-12-11 오전 3 26 24" src="https://user-images.githubusercontent.com/70502054/206869933-1e33889f-9c34-404f-99a2-53b9f9078982.png">
-
-
-
-<img width="1509" alt="스크린샷 2022-12-11 오전 3 29 04" src="https://user-images.githubusercontent.com/70502054/206870024-a0c84494-8e40-42d8-b5c1-6280f974ef89.png">
-<img width="1512" alt="스크린샷 2022-12-11 오전 3 29 18" src="https://user-images.githubusercontent.com/70502054/206870025-7a70b204-eb16-4ab2-861e-329574971d03.png">
