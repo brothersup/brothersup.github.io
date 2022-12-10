@@ -1,0 +1,110 @@
+---
+title: 2. github-jenkins 연동
+author:
+  name: 신형섭
+  link: https://github.com/brothersup
+date: 2022-12-11 03:45:00 +0900
+categories: [study, CI/CD]
+tags: [DevOps, jenkins, 젠킨스, CI/CD]
+---
+
+## 젠킨스 설정
+### 1. 권한 설정
+
+#### 1-1. 깃허브 토큰 발급
+
+오른쪽 위에 있는 프로파일 이미지를 클릭하면 메뉴가 나오는데 여기서 Settings를 클릭한다.
+![](https://user-images.githubusercontent.com/70502054/206862440-4edacf38-99cf-49f0-9346-432096498e74.png)
+
+왼쪽 메뉴 중 Developer settings 에 들어간 다음 Personal access tokens > Tokens (classic) 메뉴를 선택한다.
+Generate new token (classic) 을 클릭해서 토큰을 생성하는 페이지로 들어간다.
+![](https://user-images.githubusercontent.com/70502054/206863081-3d1c5a8b-8107-4693-b23d-432df8029316.png)
+
+Note를 입력하고 Expiration을 선택한 다음 Select scopes 에서 repo, admin:repo_hook를 선택한다.
+노트는 그냥 어디에 사용되는 토큰인지 식별만 가능하게 아무렇게나 지어도 무관하다.
+Generate token 버튼을 클릭하면 토큰이 생성된다.
+![](https://user-images.githubusercontent.com/70502054/206863464-8f60f8b5-9630-47db-83ad-f36a04dc989e.png)
+
+#### 1-2. 젠킨스 credential 추가
+
+젠킨스 인덱스 페이지에서 Jenkins 관리 > Manage Credentials 페이지에서 System 옆에 있는
+(global)에 마우스를 올려두면 화살표가 생기는데 클릭한 다음 Add credentials를 클릭한다
+![](https://user-images.githubusercontent.com/70502054/206861059-0ff7d585-d6e4-4628-8222-1e11e1fafb94.png)
+![](https://user-images.githubusercontent.com/70502054/206861456-20bf6313-2070-466c-9e60-4378f5b05908.png)
+
+Username에 깃허브 사용자명을 입력하고 Password에는 앞서 생성한 토큰을 입력한다.
+ID는 빈칸으로 두면 자동으로 생성되기 때문에 생략하고 create 버튼을 클릭하면 권한 설정은 끝난다.
+![](https://user-images.githubusercontent.com/70502054/206863757-aef9d838-dc41-49c5-91c1-e2074d5af342.png)
+![](https://user-images.githubusercontent.com/70502054/206863926-b91cb3cc-03a0-4e33-b746-839e9d17124d.png)
+
+### 2. 젠킨스 파이프라인 생성
+
+젠킨스 인덱스 페이지의 왼쪽 메뉴에서 새로운 Item 을 선택해서 아이템을 추가하는 페이지로 이동한다.
+추가 페이지에서 아이템 이름을 입력하고 Pipeline을 선택한 다음 OK 버튼을 클릭한다.
+![](https://user-images.githubusercontent.com/70502054/206865175-3e4e62dc-9bf3-4448-8e79-0c9440dd8009.png)
+
+Build Triggers에 Github hook trigger for GITScm polling 을 체크한다.
+![](https://user-images.githubusercontent.com/70502054/206865467-1d172565-adee-47d0-ab8d-e29f77af10af.png)
+
+다음은 pipeline script에 다음과 같이 입력한다. branch, credentialsId, url은 상황에 맞게 수정해준다.
+```
+pipeline {
+    agent any
+
+    stages {
+        stage('git clone') {
+            steps {
+                git branch: '브랜치 이름',
+                    credentialsId: '젠킨스 credential의 id',
+                    url: 'github repository url'
+            }
+        }
+    }
+}
+```
+<img src="https://user-images.githubusercontent.com/70502054/206869933-1e33889f-9c34-404f-99a2-53b9f9078982.png" width="40%" alt="">
+
+![](https://user-images.githubusercontent.com/70502054/206866769-2e000795-aefd-4d3d-b38b-8566868371fa.png)
+
+branch는 해당 브랜치에 push 이벤트가 발생하면 해당 브랜치의 이벤트를 캐치하도록 설정할 브랜치명을 적는 부분이고,
+credentialsId는 앞서 생성한 젠킨스 credential의 id를 적어준다.(이 포스팅 기준 앞서 자동생성되도록 빈칸으로 둬서 자동생성된 id)
+그리고 마지막으로 url은 깃허브 저장소의 주소를 적어준다.
+
+해당 스크립트의 내용은 깃허브 저장소의 웹훅 설정에서 지정한 이벤트(다음 단계에서 설정할 예정)가 발생하면 저장소의 코드를 젠킨스 서버에 코드를 내려받는 내용이다.
+이 부분은 이후 포스팅을 통해 내려받은 코드를 빌드하고 배포하도록 스크립트를 추가해줄 예정이다.
+
+저장 버튼을 클릭하고 빠져나오면 우선 파이프라인 설정은 끝이다.
+
+### 3. 깃허브 저장소 설정
+
+깃허브 저장소의 설정페이지에서 Webhooks 메뉴를 선택한 다음 Add webhook 버튼을 클릭한다.
+![](https://user-images.githubusercontent.com/70502054/206867430-2cf31846-40a7-4880-a21c-0ae0c95a1c07.png)
+
+Payload URL을 입력하고 Content Type은 application/json으로 선택해준다.
+페이로드 url의 경우 젠킨스 서버의 주소 뒤에 /github-webhook/을 추가한 문장으로 입력하고
+젠킨스 서버의 주소는 localhost나 ip가 아닌 외부에서 접속 가능한 주소를 사용해서 입력해준다.<br>
+![](https://user-images.githubusercontent.com/70502054/206868782-98323a20-ea27-49b5-8eef-68a07806bd20.png)
+
+> 페이로드 url의 경우 마지막에 /를 붙여주지 않으면 젠킨스 서버에 요청을 실패하니 붙여주도록 한다.
+{: .prompt-info}
+
+입력이 끝나면 Add webhook 버튼을 클릭해서 저장한다.
+![](https://user-images.githubusercontent.com/70502054/206868291-a7cef761-877c-486e-a5f1-10f46bf16a73.png)
+
+웹훅 추가를 마치고 나온 화면(바로 위 이미지 화면)에서 Edit 버튼을 클릭한 다음 Recent Deliveries 탭을 선택하면 핑 테스트 결과가 나온다.
+초록색 체크가 떠있으면 github 저장소의 webhook 설정이 끝난다.
+![](https://user-images.githubusercontent.com/70502054/206869303-a5eb9340-da87-48b6-a607-441e81095680.png)
+
+### 4. 테스트
+
+제대로 동작하는지 확인하기 위해 리드미 파일을 수정하고 푸쉬해보았다.
+![](https://user-images.githubusercontent.com/70502054/206870024-a0c84494-8e40-42d8-b5c1-6280f974ef89.png)
+![](https://user-images.githubusercontent.com/70502054/206870025-7a70b204-eb16-4ab2-861e-329574971d03.png)
+
+성공!!
+![](https://user-images.githubusercontent.com/70502054/206870390-654ae0d1-1e50-44e0-b47b-693ec92b34a1.png)
+
+### 정리
+
+깃허브와 젠킨스 연동까지 끝났다. 원래 깃랩으로 했던거라 깃허브로 새로 해봤지만 플러그인이 필요없어서 조금더 간단했다.<br>
+다음은 젠킨스 파이프라인 스크립트를 수정해서 코드를 받은다음 빌드까지 되도록 만들고 스프링부트로 테스트용 프로젝트를 하나 만든 다음 푸쉬를 해서 확인하는 내용까지 포스팅 할 예정이다.
